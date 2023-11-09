@@ -68,6 +68,8 @@ description
 
 **РЕШЕНИЕ**
 1. Создание и проверка сервера
+    УСПЕШНЫЙ ЗАПУСК СЕРВЕРА: ![image](https://github.com/IFIFZNEN/Test_Project_Sarkor/assets/104571864/31d99c45-c22e-48d1-a014-b4cd8c55b854)
+
 2. Создание POST запросов
 3. 
  
