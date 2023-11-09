@@ -68,6 +68,14 @@ description
 
 **РЕШЕНИЕ**
 1. Создание и проверка сервера
-2. Создание POST запросов
-3. 
+     УСПЕШНЫЙ ЗАПУСК СЕРВЕРА: ![image](https://github.com/IFIFZNEN/Test_Project_Sarkor/assets/104571864/31d99c45-c22e-48d1-a014-b4cd8c55b854)
+     ОТОБРАЖЕНИЕ РАБОТЫ ПРОГРАММЫ В БРАУЗЕРЕ ПО ССЫЛКЕ: http://localhost:8080/ : ![image](https://github.com/IFIFZNEN/Test_Project_Sarkor/assets/104571864/14fe1874-1ea3-4d1d-b62f-e346eb8f8fbc)
+
+3. Создание POST запросов
+     ПРИМЕР РАБОТЫ ОТПРАВКИ ЗАПРОСА НА СОЗДАНИЕ ПОЛЬЗОВАТЕЛЯ:
+   
+     ![image](https://github.com/IFIFZNEN/Test_Project_Sarkor/assets/104571864/1ecf11a4-f41a-43d5-98fc-7cead8c18970)
+
+5. 
+6. 
  
