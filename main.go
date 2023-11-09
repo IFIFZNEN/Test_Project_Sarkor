@@ -1,7 +1,6 @@
 package main
 
 import (
-	"C"
 	"database/sql"
 
 	"github.com/gin-gonic/gin"
