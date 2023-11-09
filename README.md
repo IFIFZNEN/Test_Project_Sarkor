@@ -73,8 +73,9 @@ description
 
 3. Создание POST запросов
      ПРИМЕР РАБОТЫ ОТПРАВКИ ЗАПРОСА НА СОЗДАНИЕ ПОЛЬЗОВАТЕЛЯ:
+   
      ![image](https://github.com/IFIFZNEN/Test_Project_Sarkor/assets/104571864/1ecf11a4-f41a-43d5-98fc-7cead8c18970)
 
-4. 
 5. 
+6. 
  
