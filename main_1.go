@@ -1,3 +1,7 @@
+/*
+	ПУНКТ 1. ЗАПУСК И СОЗДАНИЕ СЕРВЕРА. ВЫВОД НА ЭКРАН "HELLO WORLD" по ссылке http://localhost:8080/
+*/
+
 package main
 
 import (
