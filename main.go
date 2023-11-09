@@ -1,24 +1,44 @@
 package main
 
 import (
+	"C"
 	"database/sql"
-	"fmt"
 
+	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
-	db, err := sql.Open("sqlite3", "store.db")
+	db, err := sql.Open("sqlite3", "./test.db")
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
-	result, err := db.Exec("insert into products (model, company, price) values ('iPhone X', $1, $2)",
-		"Apple", 72000)
+
+	// Созданиче SQL таблицы
+	sql_table := `
+    CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        login VARCHAR NOT NULL,
+        password VARCHAR NOT NULL,
+        name VARCHAR NOT NULL,
+        age INTEGER
+    );`
+
+	_, err = db.Exec(sql_table)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(result.LastInsertId()) // id последнего добавленного объекта
-	fmt.Println(result.RowsAffected()) // количество добавленных строк
 
+	// Запуск Джин
+	r := gin.Default()
+
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "hello world",
+		})
+	})
+
+	// Запуск тут
+	r.Run() // Дефолтные значения :8080
 }
