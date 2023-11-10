@@ -81,7 +81,7 @@ func main() {
 		var creds Credentials
 		// Получаем данные из JSON
 		if err := c.ShouldBindJSON(&creds); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"message": "Bad request"})
+			c.JSON(http.StatusBadRequest, gin.H{"message": "Неправильный запрос!"})
 			return
 		}
 
@@ -92,18 +92,18 @@ func main() {
 		if err != nil {
 			if err == sql.ErrNoRows {
 				// Если пользователь не найден, возвращаем ошибку
-				c.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid login credentials"})
+				c.JSON(http.StatusUnauthorized, gin.H{"message": "Неверные логин или пароль!"})
 				return
 			}
 			// Если возникла другая ошибка при запросе к БД, возвращаем ошибку сервера
-			c.JSON(http.StatusInternalServerError, gin.H{"message": "Server error"})
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Ошибка сервера!"})
 			return
 		}
 
 		// Сравниваем предоставленный пароль с сохраненным хешем
 		if err = bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(creds.Password)); err != nil {
 			// Если пароли не совпадают, возвращаем ошибку
-			c.JSON(http.StatusUnauthorized, gin.H{"message": "Invalid login credentials"})
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "Неверные логин или пароль!"})
 			return
 		}
 
@@ -136,7 +136,7 @@ func main() {
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello, World!",
+			"message": "ПРИВЕТ, МИР!",
 		})
 	})
 
