@@ -3,8 +3,8 @@ package main
 import (
 	"database/sql"
 	"net/http"
+	"os"
 	"strconv"
-
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -13,7 +13,15 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-var jwtKey = []byte("password") // Секретный ключ
+func readSecretKeyfromFile(file string) string {
+	str, err := os.ReadFile("secret_key.txt")
+	if err != nil {
+		panic(err)
+	}
+	return string(str)
+}
+
+var jwtKey = readSecretKeyfromFile // Секретный ключ
 
 type Credentials struct {
 	Password string `json:"password"`
@@ -23,6 +31,12 @@ type Credentials struct {
 type Claims struct {
 	Login string `json:"login"`
 	jwt.StandardClaims
+}
+
+type PhoneInfo struct {
+	Phone       string `json:"phone"`
+	Description string `json:"description"`
+	IsFax       bool   `json:"is_fax"`
 }
 
 func main() {
@@ -140,6 +154,99 @@ func main() {
 		})
 	})
 
+	r.GET("/user/:name", AuthMiddleware(), func(c *gin.Context) { // Отображает информацию ввиде JSON curl -X GET -b "SESSTOKEN=ТУТ ТОКЕН" http://localhost:8080/user/ТУТ ИМЯ ПОЛЬЗОВАТЕЛЯ
+		name := c.Param("name")
+
+		// Поиск пользователя в БД
+		var user struct {
+			ID   int    `json:"id"`
+			Name string `json:"name"`
+			Age  int    `json:"age"`
+		}
+
+		err := db.QueryRow("SELECT id, name, age FROM users WHERE name = ?", name).Scan(&user.ID, &user.Name, &user.Age)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				// Если пользователь не найден, возвращаем ошибку
+				c.JSON(http.StatusNotFound, gin.H{"message": "User not found"})
+				return
+			}
+			// Если возникла другая ошибка при запросе к БД, возвращаем ошибку сервера
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Server error"})
+			return
+		}
+
+		c.JSON(http.StatusOK, user)
+	})
+
+	r.POST("/user/phone", AuthMiddleware(), func(c *gin.Context) {
+		var phoneInfo PhoneInfo
+		if err := c.ShouldBindJSON(&phoneInfo); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "Bad request"})
+			return
+		}
+
+		// Извлекаем информацию о пользователе из токена
+		userInfo, _ := c.Get("userInfo")
+		claims, _ := userInfo.(*Claims)
+
+		// Проверяем, существует ли уже такой номер в базе данных
+		var exists int
+		err := db.QueryRow("SELECT COUNT(*) FROM phones WHERE phone = ?", phoneInfo.Phone).Scan(&exists)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error checking phone existence"})
+			return
+		}
+		if exists > 0 {
+			c.JSON(http.StatusConflict, gin.H{"message": "Phone number already exists"})
+			return
+		}
+
+		// Добавляем информацию о телефоне в базу данных
+		stmt, err := db.Prepare("INSERT INTO phones (user_id, phone, description, is_fax) VALUES (?, ?, ?, ?)")
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not prepare SQL statement"})
+			return
+		}
+		defer stmt.Close()
+
+		_, err = stmt.Exec(claims.Id, phoneInfo.Phone, phoneInfo.Description, phoneInfo.IsFax)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not execute SQL statement"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"message": "Phone number added successfully"})
+	})
+
 	r.Run() // дефолтный порт :8080
 
+}
+
+func AuthMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		// Получаем куки SESSTOKEN
+		tokenString, err := c.Cookie("SESSTOKEN")
+		if err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "Токен не найден!"})
+			c.Abort()
+			return
+		}
+
+		// Парсим токен
+		claims := &Claims{}
+		token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+			return jwtKey, nil
+		})
+
+		if err != nil || !token.Valid {
+			c.JSON(http.StatusUnauthorized, gin.H{"message": "Неправильный токен"})
+			c.Abort()
+			return
+		}
+
+		// Добавляем информацию о пользователе в контекст
+		c.Set("userInfo", claims)
+		c.Next()
+	}
 }
