@@ -13,7 +13,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// var jwtKey = []byte("password") // Секретный ключ
+var jwtKey = []byte("password") // Секретный ключ
 
 type Credentials struct {
 	Password string `json:"password"`
@@ -26,6 +26,7 @@ type Claims struct {
 }
 
 func main() {
+
 	db, err := sql.Open("sqlite3", "./test.db")
 	if err != nil {
 		panic(err)
@@ -75,7 +76,8 @@ func main() {
 	})
 
 	// АВТОРИЗАЦИЯ!
-	r.POST("/user/auth", func(c *gin.Context) {
+	r.POST("/user/auth", func(c *gin.Context) { // для проверки авторизации использовуем команду: "curl -v -H "Content-Type: application/json" -d "{\"login\":\"пиши логин\",\"password\":\"пиши пароль\"}" -X POST http://localhost:8080/user/auth"
+
 		var creds Credentials
 		// Получаем данные из JSON
 		if err := c.ShouldBindJSON(&creds); err != nil {
@@ -118,7 +120,7 @@ func main() {
 		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 		tokenString, err := token.SignedString(jwtKey)
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create token"})
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Не получается создать токен!"})
 			return
 		}
 
@@ -129,10 +131,15 @@ func main() {
 			Expires: expirationTime,
 		})
 
-		c.JSON(http.StatusOK, gin.H{"message": "Logged in"})
+		c.JSON(http.StatusOK, gin.H{"message": "Успешный вход!"})
 	})
 
-	// Define other routes and handlers
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{
+			"message": "Hello, World!",
+		})
+	})
 
-	r.Run() // By default it will listen on :8080
+	r.Run() // дефолтный порт :8080
+
 }
