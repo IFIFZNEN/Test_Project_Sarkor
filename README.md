@@ -84,6 +84,10 @@ description
    
      ![image](https://github.com/IFIFZNEN/Test_Project_Sarkor/assets/104571864/c24d6ad2-d557-432a-b592-f624b905f8c1)
 
+     ПРИМЕР РАБОТЫ ФУНКЦИИ ПО ВЫВОДУ ИНФОРМАЦИИ ВИДЕ JSON:
+   
+     ![image](https://github.com/IFIFZNEN/Test_Project_Sarkor/assets/104571864/167bbd55-d361-4cf1-ac61-e96d6ee8913d)
+
 
 5. 
 6. 
