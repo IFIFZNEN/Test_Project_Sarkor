@@ -75,8 +75,11 @@ description
      ПРИМЕР РАБОТЫ ОТПРАВКИ ЗАПРОСА НА СОЗДАНИЕ ПОЛЬЗОВАТЕЛЯ:
    
      ![image](https://github.com/IFIFZNEN/Test_Project_Sarkor/assets/104571864/1ecf11a4-f41a-43d5-98fc-7cead8c18970)
-     
-     ![image](https://github.com/IFIFZNEN/Test_Project_Sarkor/assets/104571864/f68e0d85-2735-4f2d-be99-f4114baa7640)
+
+     ПРИМЕР РАБОТЫ ФУНЦИИ ДЛЯ АВТОРИЗАЦИИ ПОЛЬЗОВАТЕЛЯ:
+   
+     ![image](https://github.com/IFIFZNEN/Test_Project_Sarkor/assets/104571864/c24d6ad2-d557-432a-b592-f624b905f8c1)
+
 
 5. 
 6. 
