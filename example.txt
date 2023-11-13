@@ -1,0 +1,17 @@
+curl -d "login=newUser&password=newUser&name=John&age=21" -X POST http://localhost:8080/user/register"
+
+################
+
+curl -v -H "Content-Type: application/json" -d "{\"login\":\"пиши логин\",\"password\":\"пиши пароль\"}" -X POST http://localhost:8080/user/auth
+
+################
+
+curl -X GET -b "SESSTOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMiIsImxvZ2luIjoiaWZpZnpuZW4iLCJleHAiOjE2OTk4NzY3OTV9.oxeMmX0Ukok7gYVEkyNwykDQLuSo8OE5ndqZJbfAP18" http://localhost:8080/user/IFIFZNEN
+
+###
+
+curl  
+
+curl -X POST \
+  http://localhost:8080/user/register \
+  -d 'login=testuser&password=testpassword&name=TestUser&age=25'
