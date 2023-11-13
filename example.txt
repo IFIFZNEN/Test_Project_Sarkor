@@ -12,6 +12,55 @@ curl -X GET -b "SESSTOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiM
 
 curl  
 
+
 curl -X POST \
   http://localhost:8080/user/register \
   -d 'login=testuser&password=testpassword&name=TestUser&age=25'
+
+
+
+curl -X PUT \
+  http://localhost:8080/user/phone \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer your_token_here' \
+  -d '{"phone_id": 1, "phone": "9876543210", "description": "Updated Phone", "is_fax": true}'
+
+
+
+curl -X DELETE \
+  http://localhost:8080/user/phone/1 \
+  -H 'Authorization: Bearer your_token_here'
+
+
+
+curl -X POST \
+  http://localhost:8080/user/auth \
+  -H 'Content-Type: application/json' \
+  -d '{"login": "testuser", "password": "testpassword"}'
+
+curl -X POST http://localhost:8080/user/auth -H 'Content-Type: application/json' -d '{"login": "ififznen", "password": "ififznen"}'
+
+
+
+
+
+
+
+curl -d "login=admin&password=admin&name=ADMIN&age=25" -X POST http://localhost:8080/user/register"
+{"status":"Пользователь успешно создан!"}
+
+
+
+
+SESSTOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMSIsImxvZ2luIjoiYWRtaW4iLCJleHAiOjE2OTk5MDg4NzB9.K_qdvg56bk5UbE_NORj4cq3jthk1f_yj28G74UTWeoc
+
+
+
+curl -v -H "Content-Type: application/json" -d "{\"phone\":\"+79037389930\",\"description\":\"Phone number of admin\",\"is_fax\":\"false\"}" -X POST http://localhost:8080/user/phone
+
+
+
+curl -X GET -b "SESSTOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMSIsImxvZ2luIjoiYWRtaW4iLCJleHAiOjE2OTk5MDg4NzB9.K_qdvg56bk5UbE_NORj4cq3jthk1f_yj28G74UTWeoc" http://localhost:8080/user/ADMIN
+{"age":25,"id":1,"name":"ADMIN"}
+
+

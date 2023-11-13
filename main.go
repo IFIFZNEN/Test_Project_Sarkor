@@ -27,14 +27,14 @@ type Claims struct {
 
 func main() {
 	var err error
-	// Initialize the database
+	// Инициализация БД
 	db, err = sql.Open("sqlite3", "./test.db")
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
 
-	// Create users table if not exists
+	// Создание таблицы с пользователями
 	createUsersTable := `CREATE TABLE IF NOT EXISTS users (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		login TEXT NOT NULL UNIQUE,
@@ -47,7 +47,7 @@ func main() {
 		panic(err)
 	}
 
-	// Create phones table if not exists
+	// Создание таблицы с контактными номерами
 	createPhonesTable := `CREATE TABLE IF NOT EXISTS phones (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		user_id INTEGER NOT NULL,
@@ -74,29 +74,23 @@ func main() {
 	r.Run(":8080")
 }
 
-// Define other handlers and middleware here...
-
 func registerHandler(c *gin.Context) {
-	// Parse form data
 	login := c.PostForm("login")
 	password := c.PostForm("password")
 	name := c.PostForm("name")
 	age := c.PostForm("age")
 
-	// Validate input
 	if login == "" || password == "" || name == "" || age == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "All fields are required"})
 		return
 	}
 
-	// Hash password
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to hash password"})
 		return
 	}
 
-	// Insert the user into the database
 	stmt, err := db.Prepare("INSERT INTO users(login, password, name, age) VALUES(?, ?, ?, ?)")
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to prepare database statement"})
@@ -110,7 +104,6 @@ func registerHandler(c *gin.Context) {
 		return
 	}
 
-	// Respond with success
 	c.JSON(http.StatusCreated, gin.H{"status": "Account created successfully"})
 }
 
