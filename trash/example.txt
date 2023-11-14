@@ -70,3 +70,12 @@ curl -v -H "Content-Type: application/json" -d "{\"phone\":\"+79037389930\",\"de
 
 curl -v -H "Content-Type: application/json" -d "{\"phone\":\"+79037389930\",\"description\":\"Phone number of admin\",\"is_fax\":\"false\"}" -X POST -b "SESSTOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMSIsImxvZ2luIjoiYWRtaW4iLCJleHAiOjE2OTk5NDkyMzZ9.Pfl2PRIzTMvgGg898W_RhbObD91KYNxlPmHopTTR5PE" http://localhost:8080/user/phone
 
+
+
+
+
+curl -b "SESSTOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMiIsImxvZ2luIjoidGVzdCIsImV4cCI6MTY5OTk2NDU3N30.DEdrAwTzopKNYJ89KSAycJstoGLLeuH3WY-CXmrmzXo" localhost:8080/user/John
+{"age":25,"id":2,"name":"John"}
+
+
+curl -b "SESSTOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiMiIsImxvZ2luIjoidGVzdCIsImV4cCI6MTY5OTk2NDU3N30.DEdrAwTzopKNYJ89KSAycJstoGLLeuH3WY-CXmrmzXo" localhost:8080/user/John

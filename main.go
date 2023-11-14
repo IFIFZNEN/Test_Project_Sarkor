@@ -7,10 +7,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
-	_ "github.com/mattn/go-sqlite3"
-	"golang.org/x/crypto/bcrypt"
+	"github.com/dgrijalva/jwt-go"   // для создания токена
+	"github.com/gin-gonic/gin"      // для запросов
+	_ "github.com/mattn/go-sqlite3" // БД
+	"golang.org/x/crypto/bcrypt"    //шифрование
 )
 
 var db *sql.DB
